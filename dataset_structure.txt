@@ -1,0 +1,78 @@
+===== RECIPES =====
+Shape: (406233, 17)
+
+Columns:
+id
+name
+description
+ingredients
+ingredients_raw
+steps
+servings
+serving_size
+tags
+ingredient_count
+ingredient_raw_count
+step_count
+tag_count
+has_ingredients
+has_ingredients_raw
+has_steps
+has_tags
+
+Data Types:
+id                        int64
+name                        str
+description                 str
+ingredients              object
+ingredients_raw          object
+steps                    object
+servings                float64
+serving_size                str
+tags                     object
+ingredient_count          int64
+ingredient_raw_count      int64
+step_count                int64
+tag_count                 int64
+has_ingredients            bool
+has_ingredients_raw        bool
+has_steps                  bool
+has_tags                   bool
+dtype: object
+
+Sample:
+        id  ... has_tags
+2594    39  ...     True
+87430   40  ...     True
+213276  41  ...     True
+322863  43  ...     True
+32767   44  ...     True
+
+[5 rows x 17 columns]
+
+
+===== NUTRITION =====
+Shape: (13359, 4)
+
+Columns:
+fdc_id
+food_name
+data_type
+calories
+
+Data Types:
+fdc_id         int64
+food_name        str
+data_type        str
+calories     float64
+dtype: object
+
+Sample:
+   fdc_id  ... calories
+0  167512  ...    307.0
+1  167513  ...    330.0
+2  167514  ...    377.0
+3  167515  ...    232.0
+4  167516  ...    273.0
+
+[5 rows x 4 columns]

@@ -1,0 +1,88 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+*.pyd
+
+# Virtual Environment
+.venv/
+venv/
+ENV/
+env/
+
+# Environment Variables
+.env
+.env.*
+!.env.example
+
+# IDE
+.vscode/
+.idea/
+*.code-workspace
+
+# OS Files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+logs/
+
+# Python Build
+build/
+dist/
+*.egg-info/
+.eggs/
+pip-wheel-metadata/
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+
+# Type Checker
+.mypy_cache/
+.pyre/
+.pytype/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Dataset Processing (KHÔNG PUSH)
+dataset-processing/
+
+# Raw / Processed Dataset
+*.csv
+*.tsv
+*.parquet
+*.feather
+*.h5
+*.hdf5
+*.sqlite
+*.db
+
+# Pickle / Model
+*.pkl
+*.pickle
+*.joblib
+*.pt
+*.pth
+*.onnx
+
+# Seed Data (Import một lần rồi)
+backend/database/seed/
+
+# Temporary
+tmp/
+temp/
+.cache/
+
+# AWS Keys
+*.pem
+
+# Local Config
+*.local
