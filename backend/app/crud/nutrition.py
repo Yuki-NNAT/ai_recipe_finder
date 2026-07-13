@@ -8,11 +8,10 @@ class NutritionCRUD:
     @staticmethod
     def get_by_id(
         db: Session,
-        fdc_id: int
-    ):
+        fdc_id: int,
+    ) -> Nutrition | None:
 
-        return (
-            db.query(Nutrition)
-            .filter(Nutrition.fdc_id == fdc_id)
-            .first()
+        return db.get(
+            Nutrition,
+            fdc_id,
         )

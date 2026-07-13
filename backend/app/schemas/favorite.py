@@ -1,9 +1,6 @@
 from pydantic import BaseModel
 
 class FavoriteCreate(BaseModel):
-
-    user_id: int
-
     recipe_id: int
     
 class FavoriteResponse(BaseModel):

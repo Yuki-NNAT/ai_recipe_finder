@@ -1,4 +1,4 @@
-'''from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session
 
 from app.models.favorite import Favorite
 from app.models.recipe import Recipe
@@ -121,4 +121,3 @@ class FavoriteCRUD:
             db.commit()
 
         return favorite
-    '''

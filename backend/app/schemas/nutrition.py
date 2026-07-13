@@ -1,7 +1,8 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 
 class NutritionResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
 
     fdc_id: int
 
@@ -10,6 +11,3 @@ class NutritionResponse(BaseModel):
     data_type: str | None
 
     calories: float
-
-    class Config:
-        from_attributes = True

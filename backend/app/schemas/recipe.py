@@ -1,25 +1,16 @@
-from pydantic import BaseModel
-from typing import List
-from typing import Optional
+from pydantic import BaseModel, ConfigDict, Field
 
 class RecipeItem(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
 
     recipe_id: int
-
     name: str
 
-    class Config:
-        from_attributes = True
-
 class RecipeListResponse(BaseModel):
-
-    page: int
-
-    limit: int
-
-    total: int
-
-    data: List[RecipeItem]
+    page: int = Field(ge=1)
+    limit: int = Field(ge=1, le=100)
+    total: int = Field(ge=0)
+    data: list[RecipeItem]
 
 class RecipeDetailResponse(BaseModel):
 
@@ -27,19 +18,19 @@ class RecipeDetailResponse(BaseModel):
 
     name: str
 
-    description: Optional[str]
+    description: str | None = None
 
-    ingredients: list
+    ingredients: list[str]
 
-    ingredients_raw: list
+    ingredients_raw: list[str]
 
-    steps: list
+    steps: list[str]
 
-    servings: float
+    servings: float | None = None
 
-    serving_size: Optional[str]
+    serving_size: str | None = None
 
-    tags: list
+    tags: list[str]
 
     ingredient_count: int
 
@@ -56,6 +47,3 @@ class RecipeDetailResponse(BaseModel):
     has_steps: bool
 
     has_tags: bool
-
-    class Config:
-        from_attributes = True

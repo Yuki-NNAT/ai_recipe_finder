@@ -1,5 +1,6 @@
 from sqlalchemy.orm import sessionmaker
-
+from collections.abc import Generator
+from sqlalchemy.orm import Session
 from app.database.database import engine
 
 SessionLocal = sessionmaker(
@@ -12,13 +13,19 @@ SessionLocal = sessionmaker(
 
 )
 
-def get_db():
+def get_db() -> Generator[Session, None, None]:
 
     db = SessionLocal()
 
     try:
 
         yield db
+
+    except Exception:
+
+        db.rollback()
+
+        raise
 
     finally:
 
