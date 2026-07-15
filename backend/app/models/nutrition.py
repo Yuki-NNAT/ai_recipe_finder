@@ -5,7 +5,6 @@ from app.models.base import Base
 
 
 class Nutrition(Base):
-
     __tablename__ = "nutrition"
 
     fdc_id: Mapped[int] = mapped_column(

@@ -1,10 +1,12 @@
 import random
+
 from sqlalchemy import func, select
 from sqlalchemy.orm import Session, load_only
+
 from app.models.recipe import Recipe
 
-class RecipeCRUD:
 
+class RecipeCRUD:
     @staticmethod
     def get_all(
         db: Session,
@@ -17,8 +19,8 @@ class RecipeCRUD:
         if not 1 <= limit <= 100:
             raise ValueError("limit must be between 1 and 100")
 
-        return (
-            db.query(Recipe)
+        statement = (
+            select(Recipe)
             .options(
                 load_only(
                     Recipe.recipe_id,
@@ -28,7 +30,10 @@ class RecipeCRUD:
             .order_by(Recipe.recipe_id)
             .offset(skip)
             .limit(limit)
-            .all()
+        )
+
+        return list(
+            db.scalars(statement).all()
         )
 
     @staticmethod
@@ -36,6 +41,11 @@ class RecipeCRUD:
         db: Session,
         recipe_id: int,
     ) -> Recipe | None:
+        if recipe_id <= 0:
+            raise ValueError(
+                "recipe_id must be greater than 0"
+            )
+
         return db.get(Recipe, recipe_id)
 
     @staticmethod
@@ -52,7 +62,10 @@ class RecipeCRUD:
         if min_id is None or max_id is None:
             return None
 
-        random_id = random.randint(min_id, max_id)
+        random_id = random.randint(
+            min_id,
+            max_id,
+        )
 
         recipe = db.scalar(
             select(Recipe)
@@ -61,19 +74,24 @@ class RecipeCRUD:
             .limit(1)
         )
 
-        if recipe is None:
-            recipe = db.scalar(
-                select(Recipe)
-                .order_by(Recipe.recipe_id)
-                .limit(1)
-            )
+        if recipe is not None:
+            return recipe
 
-        return recipe
+        return db.scalar(
+            select(Recipe)
+            .order_by(Recipe.recipe_id)
+            .limit(1)
+        )
 
     @staticmethod
     def count(
         db: Session,
     ) -> int:
-        return db.scalar(
-            select(func.count(Recipe.recipe_id))
-        ) or 0
+        return int(
+            db.scalar(
+                select(
+                    func.count(Recipe.recipe_id)
+                )
+            )
+            or 0
+        )

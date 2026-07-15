@@ -1,3 +1,5 @@
+from typing import Annotated
+
 from fastapi import APIRouter, Depends, Path, Query
 from sqlalchemy.orm import Session
 
@@ -14,12 +16,16 @@ router = APIRouter(
     tags=["Recipes"],
 )
 
+DatabaseSession = Annotated[Session, Depends(get_db)]
+
 
 @router.get(
     "",
     response_model=RecipeListResponse,
+    summary="List recipes",
 )
 def get_recipes(
+    db: DatabaseSession,
     page: int = Query(
         default=1,
         ge=1,
@@ -29,37 +35,38 @@ def get_recipes(
         ge=1,
         le=100,
     ),
-    db: Session = Depends(get_db),
-):
+) -> RecipeListResponse:
     return RecipeService.get_recipes(
-        db,
-        page,
-        limit,
+        db=db,
+        page=page,
+        limit=limit,
     )
 
 
 @router.get(
     "/random",
     response_model=RecipeDetailResponse,
+    summary="Get a random recipe",
 )
 def get_random_recipe(
-    db: Session = Depends(get_db),
-):
+    db: DatabaseSession,
+) -> RecipeDetailResponse:
     return RecipeService.get_random_recipe(db)
 
 
 @router.get(
     "/{recipe_id}",
     response_model=RecipeDetailResponse,
+    summary="Get recipe details",
 )
 def get_recipe(
+    db: DatabaseSession,
     recipe_id: int = Path(
         ...,
         ge=1,
     ),
-    db: Session = Depends(get_db),
-):
+) -> RecipeDetailResponse:
     return RecipeService.get_recipe(
-        db,
-        recipe_id,
+        db=db,
+        recipe_id=recipe_id,
     )

@@ -83,6 +83,9 @@ temp/
 
 # AWS Keys
 *.pem
+*.key
+*.p12
+*.pfx
 
 # Local Config
 *.local

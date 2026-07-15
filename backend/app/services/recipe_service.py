@@ -7,14 +7,12 @@ from app.schemas.recipe import RecipeListResponse
 
 
 class RecipeService:
-
     @staticmethod
     def get_recipes(
         db: Session,
         page: int = 1,
         limit: int = 20,
     ) -> RecipeListResponse:
-
         if page < 1:
             raise HTTPException(
                 status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
@@ -29,11 +27,17 @@ class RecipeService:
 
         skip = (page - 1) * limit
 
-        recipes = RecipeCRUD.get_all(
-            db,
-            skip,
-            limit,
-        )
+        try:
+            recipes = RecipeCRUD.get_all(
+                db=db,
+                skip=skip,
+                limit=limit,
+            )
+        except ValueError as exc:
+            raise HTTPException(
+                status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+                detail=str(exc),
+            ) from exc
 
         total = RecipeCRUD.count(db)
 
@@ -49,11 +53,16 @@ class RecipeService:
         db: Session,
         recipe_id: int,
     ) -> Recipe:
-
-        recipe = RecipeCRUD.get_by_id(
-            db,
-            recipe_id,
-        )
+        try:
+            recipe = RecipeCRUD.get_by_id(
+                db=db,
+                recipe_id=recipe_id,
+            )
+        except ValueError as exc:
+            raise HTTPException(
+                status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+                detail=str(exc),
+            ) from exc
 
         if recipe is None:
             raise HTTPException(
@@ -67,7 +76,6 @@ class RecipeService:
     def get_random_recipe(
         db: Session,
     ) -> Recipe:
-
         recipe = RecipeCRUD.get_random(db)
 
         if recipe is None:
