@@ -1,7 +1,22 @@
-from fastapi import FastAPI
+import logging
+
+from fastapi import FastAPI, Request, status
+from fastapi.responses import JSONResponse
 
 from app.api.nutrition import router as nutrition_router
 from app.api.recipes import router as recipe_router
+
+
+logging.basicConfig(
+    level=logging.INFO,
+    format=(
+        "%(asctime)s | %(levelname)s | "
+        "%(name)s | %(message)s"
+    ),
+)
+
+logger = logging.getLogger(__name__)
+
 
 tags_metadata = [
     {
@@ -12,7 +27,12 @@ tags_metadata = [
         "name": "Nutrition",
         "description": "Nutrition endpoints",
     },
+    {
+        "name": "System",
+        "description": "System status endpoints",
+    },
 ]
+
 
 app = FastAPI(
     title="AI Recipe Finder API",
@@ -20,6 +40,26 @@ app = FastAPI(
     version="1.0.0",
     openapi_tags=tags_metadata,
 )
+
+
+@app.exception_handler(Exception)
+async def global_exception_handler(
+    request: Request,
+    exc: Exception,
+) -> JSONResponse:
+    logger.exception(
+        "Unhandled exception: method=%s path=%s",
+        request.method,
+        request.url.path,
+    )
+
+    return JSONResponse(
+        status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+        content={
+            "detail": "Internal server error.",
+        },
+    )
+
 
 app.include_router(recipe_router)
 app.include_router(nutrition_router)
