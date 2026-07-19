@@ -5,6 +5,8 @@ from sqlalchemy.orm import Session
 
 from app.database.session import get_db
 from app.schemas.recipe import (
+    RecipeCollectionResponse,
+    RecipeCollectionSummary,
     RecipeDetailResponse,
     RecipeListResponse,
 )
@@ -17,6 +19,46 @@ router = APIRouter(
 )
 
 DatabaseSession = Annotated[Session, Depends(get_db)]
+
+
+@router.get(
+    "/collections",
+    response_model=list[RecipeCollectionSummary],
+    summary="List recipe collections",
+)
+def get_recipe_collections() -> list[RecipeCollectionSummary]:
+    return RecipeService.get_collections()
+
+
+@router.get(
+    "/collections/{slug}",
+    response_model=RecipeCollectionResponse,
+    summary="List recipes in a collection",
+)
+def get_recipe_collection(
+    db: DatabaseSession,
+    slug: str = Path(
+        ...,
+        min_length=1,
+        max_length=50,
+        pattern=r"^[a-z0-9]+(?:-[a-z0-9]+)*$",
+    ),
+    cursor: int | None = Query(
+        default=None,
+        ge=1,
+    ),
+    limit: int = Query(
+        default=20,
+        ge=1,
+        le=100,
+    ),
+) -> RecipeCollectionResponse:
+    return RecipeService.get_collection(
+        db=db,
+        slug=slug,
+        cursor=cursor,
+        limit=limit,
+    )
 
 
 @router.get(

@@ -1,3 +1,4 @@
+import json
 import random
 
 from sqlalchemy import func, select
@@ -7,6 +8,74 @@ from app.models.recipe import Recipe
 
 
 class RecipeCRUD:
+    @staticmethod
+    def get_by_collection(
+        db: Session,
+        *,
+        after_recipe_id: int | None = None,
+        limit: int = 20,
+        tag: str | None = None,
+        max_ingredient_count: int | None = None,
+    ) -> list[Recipe]:
+        if after_recipe_id is not None and after_recipe_id < 1:
+            raise ValueError(
+                "after_recipe_id must be greater than 0"
+            )
+
+        if not 1 <= limit <= 101:
+            raise ValueError("limit must be between 1 and 101")
+
+        if tag is None and max_ingredient_count is None:
+            raise ValueError(
+                "a collection filter must be provided"
+            )
+
+        if tag is not None and not tag.strip():
+            raise ValueError("tag must not be empty")
+
+        if (
+            max_ingredient_count is not None
+            and max_ingredient_count < 1
+        ):
+            raise ValueError(
+                "max_ingredient_count must be greater than 0"
+            )
+
+        statement = select(Recipe).options(
+            load_only(
+                Recipe.recipe_id,
+                Recipe.name,
+            )
+        )
+
+        if after_recipe_id is not None:
+            statement = statement.where(
+                Recipe.recipe_id > after_recipe_id
+            )
+
+        if tag is not None:
+            statement = statement.where(
+                func.json_contains(
+                    Recipe.tags,
+                    json.dumps(tag),
+                )
+                == 1
+            )
+
+        if max_ingredient_count is not None:
+            statement = statement.where(
+                Recipe.ingredient_count
+                <= max_ingredient_count
+            )
+
+        statement = (
+            statement
+            .order_by(Recipe.recipe_id)
+            .limit(limit)
+        )
+
+        return list(db.scalars(statement).all())
+
     @staticmethod
     def get_all(
         db: Session,

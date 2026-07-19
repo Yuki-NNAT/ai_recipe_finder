@@ -17,6 +17,20 @@ class RecipeListResponse(BaseModel):
     data: list[RecipeItem]
 
 
+class RecipeCollectionSummary(BaseModel):
+    slug: str = Field(min_length=1, max_length=50)
+    title: str = Field(min_length=1, max_length=100)
+    description: str = Field(min_length=1, max_length=255)
+
+
+class RecipeCollectionResponse(BaseModel):
+    collection: RecipeCollectionSummary
+    limit: int = Field(ge=1, le=100)
+    has_more: bool
+    next_cursor: int | None = Field(default=None, ge=1)
+    data: list[RecipeItem]
+
+
 class RecipeDetailResponse(ORMResponseModel):
     recipe_id: int
     name: str
