@@ -1,10 +1,15 @@
 from datetime import datetime
+from typing import TYPE_CHECKING
 
 from sqlalchemy import Integer, String, TIMESTAMP, text
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.models.base import Base
 
+if TYPE_CHECKING:
+    from app.models.favorite import Favorite
+    from app.models.search_history import SearchHistory
+    from app.models.chat_history import ChatHistory
 
 class User(Base):
     __tablename__ = "users"
@@ -36,4 +41,25 @@ class User(Base):
         TIMESTAMP,
         server_default=text("CURRENT_TIMESTAMP"),
         nullable=False,
+    )
+
+    favorites: Mapped[list["Favorite"]] = relationship(
+        "Favorite",
+        back_populates="user",
+        cascade="all, delete-orphan",
+        passive_deletes=True,
+    )
+
+    search_history_entries: Mapped[list["SearchHistory"]] = relationship(
+        "SearchHistory",
+        back_populates="user",
+        cascade="all, delete-orphan",
+        passive_deletes=True,
+    )
+
+    chat_history_entries: Mapped[list["ChatHistory"]] = relationship(
+        "ChatHistory",
+        back_populates="user",
+        cascade="all, delete-orphan",
+        passive_deletes=True,
     )

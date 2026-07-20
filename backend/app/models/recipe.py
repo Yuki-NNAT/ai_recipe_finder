@@ -1,8 +1,13 @@
+from typing import TYPE_CHECKING
+
 from sqlalchemy import Boolean, Float, Integer, JSON, String, Text
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.models.base import Base
 
+if TYPE_CHECKING:
+    from app.models.favorite import Favorite
+    from app.models.chat_history import ChatHistory
 
 class Recipe(Base):
     __tablename__ = "recipes"
@@ -46,3 +51,16 @@ class Recipe(Base):
     has_steps: Mapped[bool] = mapped_column(Boolean)
 
     has_tags: Mapped[bool] = mapped_column(Boolean)
+
+    favorites: Mapped[list["Favorite"]] = relationship(
+        "Favorite",
+        back_populates="recipe",
+        cascade="all, delete-orphan",
+        passive_deletes=True,
+    )
+
+    chat_history_entries: Mapped[list["ChatHistory"]] = relationship(
+        "ChatHistory",
+        back_populates="recipe",
+        passive_deletes=True,
+    )

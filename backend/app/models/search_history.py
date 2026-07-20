@@ -1,8 +1,21 @@
 from datetime import datetime
 from typing import TYPE_CHECKING
 
-from sqlalchemy import ForeignKey, Integer, String, TIMESTAMP, BigInteger, text
-from sqlalchemy.orm import Mapped, mapped_column, relationship
+from sqlalchemy import (
+    BigInteger,
+    CheckConstraint,
+    ForeignKey,
+    Index,
+    Integer,
+    String,
+    TIMESTAMP,
+    text,
+)
+from sqlalchemy.orm import (
+    Mapped,
+    mapped_column,
+    relationship,
+)
 
 from app.models.base import Base
 
@@ -12,6 +25,24 @@ if TYPE_CHECKING:
 
 class SearchHistory(Base):
     __tablename__ = "search_history"
+    __table_args__ = (
+        CheckConstraint(
+            (
+                "total_result IS NULL OR "
+                "total_result >= 0"
+            ),
+            name=(
+                "ck_search_history_"
+                "total_result_nonnegative"
+            ),
+        ),
+        Index(
+            "ix_search_history_user_searched",
+            "user_id",
+            "searched_at",
+            "history_id",
+        ),
+    )
 
     history_id: Mapped[int] = mapped_column(
         BigInteger,
@@ -44,4 +75,7 @@ class SearchHistory(Base):
         nullable=False,
     )
 
-    user: Mapped["User"] = relationship("User")
+    user: Mapped["User"] = relationship(
+        "User",
+        back_populates="search_history_entries",
+    )

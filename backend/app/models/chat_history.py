@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import TYPE_CHECKING, Literal
 
-from sqlalchemy import BigInteger, Enum, ForeignKey, Integer, TIMESTAMP, text
+from sqlalchemy import BigInteger, Enum, ForeignKey, Index, Integer, TIMESTAMP, text
 from sqlalchemy.dialects.mysql import LONGTEXT
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
@@ -17,6 +17,14 @@ ChatRole = Literal["user", "assistant"]
 
 class ChatHistory(Base):
     __tablename__ = "chat_history"
+    __table_args__ = (
+        Index(
+            "ix_chat_history_user_created",
+            "user_id",
+            "created_at",
+            "chat_id",
+        ),
+    )
 
     chat_id: Mapped[int] = mapped_column(
         BigInteger,
@@ -44,7 +52,7 @@ class ChatHistory(Base):
 
     message: Mapped[str | None] = mapped_column(
         LONGTEXT,
-        nullable=True,
+        nullable=False,
     )
 
     recipe_id: Mapped[int | None] = mapped_column(
@@ -62,6 +70,6 @@ class ChatHistory(Base):
         nullable=False,
     )
 
-    user: Mapped["User"] = relationship("User")
+    user: Mapped["User"] = relationship("User", back_populates="chat_history_entries")
 
-    recipe: Mapped["Recipe | None"] = relationship("Recipe")
+    recipe: Mapped["Recipe | None"] = relationship("Recipe", back_populates="chat_history_entries")

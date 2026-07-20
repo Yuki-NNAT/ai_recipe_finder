@@ -7,6 +7,9 @@ from fastapi.responses import JSONResponse
 from app.api.auth import router as auth_router
 from app.api.nutrition import router as nutrition_router
 from app.api.recipes import router as recipe_router
+from app.api.favorites import router as favorite_router
+from app.api.search_history import router as search_history_router
+from app.api.chat_history import router as chat_history_router
 
 
 logging.basicConfig(
@@ -38,6 +41,24 @@ tags_metadata = [
     {
         "name": "Nutrition",
         "description": "Nutrition endpoints",
+    },
+    {
+        "name": "Favorites",
+        "description": (
+            "Authenticated user's favorite recipes"
+        ),
+    },
+    {
+        "name": "Search History",
+        "description": (
+            "Authenticated user's search history"
+        ),
+    },
+    {
+        "name": "Chat History",
+        "description": (
+            "Authenticated user chat history endpoints"
+        ),
     },
 ]
 
@@ -98,11 +119,12 @@ async def global_exception_handler(
         },
     )
 
-
 app.include_router(auth_router)
 app.include_router(recipe_router)
 app.include_router(nutrition_router)
-
+app.include_router(favorite_router)
+app.include_router(search_history_router)
+app.include_router(chat_history_router)
 
 @app.get(
     "/",

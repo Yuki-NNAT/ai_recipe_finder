@@ -1,16 +1,36 @@
-from pydantic import BaseModel
+from datetime import datetime
 
-class FavoriteCreate(BaseModel):
+from pydantic import BaseModel, ConfigDict, Field
+
+
+class FavoriteRecipeSummary(BaseModel):
+    model_config = ConfigDict(
+        from_attributes=True,
+    )
+
     recipe_id: int
-    
-class FavoriteResponse(BaseModel):
-
-    recipe_id: int
-
     name: str
 
-    created_at: str
 
-    class Config:
-        from_attributes = True
-        
+class FavoriteResponse(BaseModel):
+    model_config = ConfigDict(
+        from_attributes=True,
+    )
+
+    recipe_id: int
+    created_at: datetime
+    recipe: FavoriteRecipeSummary
+
+
+class FavoriteListResponse(BaseModel):
+    page: int = Field(
+        ge=1,
+    )
+    limit: int = Field(
+        ge=1,
+        le=100,
+    )
+    total: int = Field(
+        ge=0,
+    )
+    data: list[FavoriteResponse]

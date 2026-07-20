@@ -1,123 +1,136 @@
-from sqlalchemy.orm import Session
+from sqlalchemy import func, select
+from sqlalchemy.orm import Session, joinedload
 
 from app.models.favorite import Favorite
-from app.models.recipe import Recipe
+
 
 class FavoriteCRUD:
     @staticmethod
-    def add(
-
+    def get(
         db: Session,
-
+        *,
         user_id: int,
+        recipe_id: int,
+    ) -> Favorite | None:
+        if user_id <= 0:
+            raise ValueError(
+                "user_id must be greater than 0"
+            )
 
-        recipe_id: int
+        if recipe_id <= 0:
+            raise ValueError(
+                "recipe_id must be greater than 0"
+            )
 
-    ):
+        statement = (
+            select(Favorite)
+            .options(
+                joinedload(Favorite.recipe)
+            )
+            .where(
+                Favorite.user_id == user_id,
+                Favorite.recipe_id == recipe_id,
+            )
+        )
+
+        return db.scalar(statement)
+
+    @staticmethod
+    def get_all_by_user(
+        db: Session,
+        *,
+        user_id: int,
+        skip: int = 0,
+        limit: int = 20,
+    ) -> list[Favorite]:
+        if user_id <= 0:
+            raise ValueError(
+                "user_id must be greater than 0"
+            )
+
+        if skip < 0:
+            raise ValueError(
+                "skip must not be negative"
+            )
+
+        if not 1 <= limit <= 100:
+            raise ValueError(
+                "limit must be between 1 and 100"
+            )
+
+        statement = (
+            select(Favorite)
+            .options(
+                joinedload(Favorite.recipe)
+            )
+            .where(
+                Favorite.user_id == user_id
+            )
+            .order_by(
+                Favorite.created_at.desc(),
+                Favorite.recipe_id.desc(),
+            )
+            .offset(skip)
+            .limit(limit)
+        )
+
+        return list(
+            db.scalars(statement).all()
+        )
+
+    @staticmethod
+    def create(
+        db: Session,
+        *,
+        user_id: int,
+        recipe_id: int,
+    ) -> Favorite:
+        if user_id <= 0:
+            raise ValueError(
+                "user_id must be greater than 0"
+            )
+
+        if recipe_id <= 0:
+            raise ValueError(
+                "recipe_id must be greater than 0"
+            )
 
         favorite = Favorite(
-
             user_id=user_id,
-
-            recipe_id=recipe_id
-
+            recipe_id=recipe_id,
         )
 
         db.add(favorite)
-
-        db.commit()
+        db.flush()
 
         return favorite
-    
-    @staticmethod
-    def exists(
 
-        db: Session,
-
-        user_id: int,
-
-        recipe_id: int
-
-    ):
-
-        return (
-
-            db.query(Favorite)
-
-            .filter(
-
-                Favorite.user_id == user_id,
-
-                Favorite.recipe_id == recipe_id
-
-            )
-
-            .first()
-
-        )
-        
-    @staticmethod
-    def get_all(
-
-        db: Session,
-
-        user_id: int
-
-    ):
-
-        return (
-
-            db.query(Favorite, Recipe)
-
-            .join(
-
-                Recipe,
-
-                Favorite.recipe_id == Recipe.recipe_id
-
-            )
-
-            .filter(
-
-                Favorite.user_id == user_id
-
-            )
-
-            .all()
-
-        )
-        
     @staticmethod
     def delete(
-
         db: Session,
+        favorite: Favorite,
+    ) -> None:
+        db.delete(favorite)
+        db.flush()
 
+    @staticmethod
+    def count_by_user(
+        db: Session,
+        *,
         user_id: int,
-
-        recipe_id: int
-
-    ):
-
-        favorite = (
-
-            db.query(Favorite)
-
-            .filter(
-
-                Favorite.user_id == user_id,
-
-                Favorite.recipe_id == recipe_id
-
+    ) -> int:
+        if user_id <= 0:
+            raise ValueError(
+                "user_id must be greater than 0"
             )
 
-            .first()
-
+        statement = select(
+            func.count(Favorite.recipe_id)
+        ).where(
+            Favorite.user_id == user_id
         )
 
-        if favorite:
-
-            db.delete(favorite)
-
-            db.commit()
-
-        return favorite
+        return int(
+            db.scalar(statement)
+            or 0
+        )

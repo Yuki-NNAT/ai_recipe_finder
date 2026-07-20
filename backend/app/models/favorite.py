@@ -38,6 +38,6 @@ class Favorite(Base):
         nullable=False,
     )
 
-    user: Mapped["User"] = relationship("User")
+    user: Mapped["User"] = relationship("User", back_populates="favorites")
 
-    recipe: Mapped["Recipe"] = relationship("Recipe")
+    recipe: Mapped["Recipe"] = relationship("Recipe", back_populates="favorites")
