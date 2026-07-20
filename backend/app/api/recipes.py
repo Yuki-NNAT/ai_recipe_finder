@@ -92,8 +92,21 @@ def get_recipes(
 )
 def get_random_recipe(
     db: DatabaseSession,
+    collection: str | None = Query(
+        default=None,
+        min_length=1,
+        max_length=50,
+        pattern=r"^[a-z0-9]+(?:-[a-z0-9]+)*$",
+        description=(
+            "Optional recipe collection slug. "
+            "Omit to select from all recipes."
+        ),
+    ),
 ) -> RecipeDetailResponse:
-    return RecipeService.get_random_recipe(db)
+    return RecipeService.get_random_recipe(
+        db=db,
+        collection=collection,
+    )
 
 
 @router.get(

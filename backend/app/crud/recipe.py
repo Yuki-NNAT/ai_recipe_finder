@@ -101,9 +101,7 @@ class RecipeCRUD:
             .limit(limit)
         )
 
-        return list(
-            db.scalars(statement).all()
-        )
+        return list(db.scalars(statement).all())
 
     @staticmethod
     def get_by_id(
@@ -120,12 +118,43 @@ class RecipeCRUD:
     @staticmethod
     def get_random(
         db: Session,
+        *,
+        tag: str | None = None,
+        max_ingredient_count: int | None = None,
     ) -> Recipe | None:
-        min_id, max_id = db.execute(
-            select(
-                func.min(Recipe.recipe_id),
-                func.max(Recipe.recipe_id),
+        if tag is not None and not tag.strip():
+            raise ValueError("tag must not be empty")
+
+        if (
+            max_ingredient_count is not None
+            and max_ingredient_count < 1
+        ):
+            raise ValueError(
+                "max_ingredient_count must be greater than 0"
             )
+
+        bounds_statement = select(
+            func.min(Recipe.recipe_id),
+            func.max(Recipe.recipe_id),
+        )
+
+        if tag is not None:
+            bounds_statement = bounds_statement.where(
+                func.json_contains(
+                    Recipe.tags,
+                    json.dumps(tag),
+                )
+                == 1
+            )
+
+        if max_ingredient_count is not None:
+            bounds_statement = bounds_statement.where(
+                Recipe.ingredient_count
+                <= max_ingredient_count
+            )
+
+        min_id, max_id = db.execute(
+            bounds_statement
         ).one()
 
         if min_id is None or max_id is None:
@@ -136,8 +165,25 @@ class RecipeCRUD:
             max_id,
         )
 
+        recipe_statement = select(Recipe)
+
+        if tag is not None:
+            recipe_statement = recipe_statement.where(
+                func.json_contains(
+                    Recipe.tags,
+                    json.dumps(tag),
+                )
+                == 1
+            )
+
+        if max_ingredient_count is not None:
+            recipe_statement = recipe_statement.where(
+                Recipe.ingredient_count
+                <= max_ingredient_count
+            )
+
         recipe = db.scalar(
-            select(Recipe)
+            recipe_statement
             .where(Recipe.recipe_id >= random_id)
             .order_by(Recipe.recipe_id)
             .limit(1)
@@ -146,8 +192,25 @@ class RecipeCRUD:
         if recipe is not None:
             return recipe
 
+        fallback_statement = select(Recipe)
+
+        if tag is not None:
+            fallback_statement = fallback_statement.where(
+                func.json_contains(
+                    Recipe.tags,
+                    json.dumps(tag),
+                )
+                == 1
+            )
+
+        if max_ingredient_count is not None:
+            fallback_statement = fallback_statement.where(
+                Recipe.ingredient_count
+                <= max_ingredient_count
+            )
+
         return db.scalar(
-            select(Recipe)
+            fallback_statement
             .order_by(Recipe.recipe_id)
             .limit(1)
         )

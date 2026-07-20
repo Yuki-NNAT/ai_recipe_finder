@@ -53,6 +53,7 @@ RECIPE_COLLECTIONS = {
     )
 }
 
+
 class RecipeService:
     @staticmethod
     def get_collections() -> list[RecipeCollectionSummary]:
@@ -110,6 +111,7 @@ class RecipeService:
 
         has_more = len(recipes) > limit
         page_data = recipes[:limit]
+
         next_cursor = (
             page_data[-1].recipe_id
             if has_more and page_data
@@ -196,8 +198,40 @@ class RecipeService:
     @staticmethod
     def get_random_recipe(
         db: Session,
+        collection: str | None = None,
     ) -> Recipe:
-        recipe = RecipeCRUD.get_random(db)
+        collection_definition = None
+
+        if collection is not None:
+            collection_definition = RECIPE_COLLECTIONS.get(
+                collection
+            )
+
+            if collection_definition is None:
+                raise HTTPException(
+                    status_code=status.HTTP_404_NOT_FOUND,
+                    detail="Recipe collection not found",
+                )
+
+        try:
+            recipe = RecipeCRUD.get_random(
+                db=db,
+                tag=(
+                    collection_definition.tag
+                    if collection_definition is not None
+                    else None
+                ),
+                max_ingredient_count=(
+                    collection_definition.max_ingredient_count
+                    if collection_definition is not None
+                    else None
+                ),
+            )
+        except ValueError as exc:
+            raise HTTPException(
+                status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+                detail=str(exc),
+            ) from exc
 
         if recipe is None:
             raise HTTPException(
