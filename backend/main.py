@@ -1,6 +1,7 @@
 import logging
 
 from fastapi import FastAPI, Request, status
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
 from app.api.auth import router as auth_router
@@ -46,6 +47,31 @@ app = FastAPI(
     description="Backend API for AI Recipe Finder.",
     version="1.0.0",
     openapi_tags=tags_metadata,
+)
+
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        (
+            "https://main."
+            "d2ykhh6couuz7m.amplifyapp.com"
+        ),
+        "http://localhost:5173",
+    ],
+    allow_credentials=False,
+    allow_methods=[
+        "GET",
+        "POST",
+        "PUT",
+        "PATCH",
+        "DELETE",
+        "OPTIONS",
+    ],
+    allow_headers=[
+        "Authorization",
+        "Content-Type",
+    ],
 )
 
 
