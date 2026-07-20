@@ -213,7 +213,19 @@ class AuthService:
         if user_info_subject != token_subject:
             raise authentication_error()
 
-        if user_info.get("email_verified") is not True:
+        email_verified = user_info.get(
+            "email_verified"
+        )
+
+        is_verified = (
+            email_verified is True
+            or (
+                isinstance(email_verified, str)
+                and email_verified.strip().lower() == "true"
+            )
+        )
+
+        if not is_verified:
             raise verified_email_required_error()
 
         email = cls.normalize_email(
