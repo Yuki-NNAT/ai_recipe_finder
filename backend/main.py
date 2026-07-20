@@ -10,6 +10,7 @@ from app.api.recipes import router as recipe_router
 from app.api.favorites import router as favorite_router
 from app.api.search_history import router as search_history_router
 from app.api.chat_history import router as chat_history_router
+from app.api.ratings import router as ratings_router
 
 
 logging.basicConfig(
@@ -58,6 +59,12 @@ tags_metadata = [
         "name": "Chat History",
         "description": (
             "Authenticated user chat history endpoints"
+        ),
+    },
+    {
+        "name": "Ratings",
+        "description": (
+            "Recipe rating and authenticated user rating endpoints"
         ),
     },
 ]
@@ -125,6 +132,7 @@ app.include_router(nutrition_router)
 app.include_router(favorite_router)
 app.include_router(search_history_router)
 app.include_router(chat_history_router)
+app.include_router(ratings_router)
 
 @app.get(
     "/",

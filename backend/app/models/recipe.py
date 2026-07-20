@@ -8,6 +8,7 @@ from app.models.base import Base
 if TYPE_CHECKING:
     from app.models.favorite import Favorite
     from app.models.chat_history import ChatHistory
+    from app.models.rating import Rating
 
 class Recipe(Base):
     __tablename__ = "recipes"
@@ -62,5 +63,12 @@ class Recipe(Base):
     chat_history_entries: Mapped[list["ChatHistory"]] = relationship(
         "ChatHistory",
         back_populates="recipe",
+        passive_deletes=True,
+    )
+
+    ratings: Mapped[list["Rating"]] = relationship(
+        "Rating",
+        back_populates="recipe",
+        cascade="all, delete-orphan",
         passive_deletes=True,
     )
