@@ -9,6 +9,7 @@ if TYPE_CHECKING:
     from app.models.favorite import Favorite
     from app.models.chat_history import ChatHistory
     from app.models.rating import Rating
+    from app.models.comment import Comment
 
 class Recipe(Base):
     __tablename__ = "recipes"
@@ -68,6 +69,13 @@ class Recipe(Base):
 
     ratings: Mapped[list["Rating"]] = relationship(
         "Rating",
+        back_populates="recipe",
+        cascade="all, delete-orphan",
+        passive_deletes=True,
+    )
+
+    comments: Mapped[list["Comment"]] = relationship(
+        "Comment",
         back_populates="recipe",
         cascade="all, delete-orphan",
         passive_deletes=True,

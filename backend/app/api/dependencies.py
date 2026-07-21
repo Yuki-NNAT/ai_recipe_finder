@@ -1,6 +1,6 @@
 from typing import Annotated, Any
 
-from fastapi import Depends
+from fastapi import Depends, Request
 from fastapi.security import HTTPAuthorizationCredentials
 from sqlalchemy.orm import Session
 
@@ -44,8 +44,38 @@ def get_current_database_user(
         claims=claims,
     )
 
+async def get_optional_current_database_user(
+    request: Request,
+    db: DatabaseSession,
+) -> User | None:
+    authorization_header = request.headers.get(
+        "Authorization"
+    )
+
+    if authorization_header is None:
+        return None
+
+    credentials = await bearer_scheme(request)
+
+    if credentials is None:
+        raise authentication_error()
+
+    claims = await verify_access_token(
+        credentials=credentials,
+    )
+
+    return AuthService.get_current_user(
+        db,
+        access_token=credentials.credentials,
+        claims=claims,
+    )
 
 CurrentDatabaseUser = Annotated[
     User,
     Depends(get_current_database_user),
+]
+
+OptionalCurrentDatabaseUser = Annotated[
+    User | None,
+    Depends(get_optional_current_database_user),
 ]

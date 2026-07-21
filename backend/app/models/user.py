@@ -11,6 +11,7 @@ if TYPE_CHECKING:
     from app.models.search_history import SearchHistory
     from app.models.chat_history import ChatHistory
     from app.models.rating import Rating
+    from app.models.comment import Comment
 
 class User(Base):
     __tablename__ = "users"
@@ -67,6 +68,13 @@ class User(Base):
 
     ratings: Mapped[list["Rating"]] = relationship(
         "Rating",
+        back_populates="user",
+        cascade="all, delete-orphan",
+        passive_deletes=True,
+    )
+
+    comments: Mapped[list["Comment"]] = relationship(
+        "Comment",
         back_populates="user",
         cascade="all, delete-orphan",
         passive_deletes=True,

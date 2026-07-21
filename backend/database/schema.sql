@@ -137,42 +137,101 @@ CREATE TABLE ingredient_mapping (
         ON DELETE CASCADE
 );
 
--- Checking Database
-SELECT COUNT(*) AS total_recipes
-FROM recipes;
+CREATE TABLE ratings (
+    user_id INT NOT NULL,
+    recipe_id INT NOT NULL,
+    rating TINYINT UNSIGNED NOT NULL,
 
-SELECT COUNT(*) AS total_nutrition
-FROM nutrition;
+    created_at TIMESTAMP NOT NULL
+        DEFAULT CURRENT_TIMESTAMP,
 
-SELECT *
-FROM recipes
-LIMIT 10;
+    updated_at TIMESTAMP NOT NULL
+        DEFAULT CURRENT_TIMESTAMP
+        ON UPDATE CURRENT_TIMESTAMP,
 
-SELECT *
-FROM recipes
-ORDER BY RAND()
-LIMIT 10;
+    PRIMARY KEY (
+        user_id,
+        recipe_id
+    ),
 
-SELECT
-    recipe_id,
-    JSON_LENGTH(ingredients) AS ingredient_count
-FROM recipes
-LIMIT 10;
+    INDEX ix_ratings_recipe_id (
+        recipe_id
+    ),
 
-SELECT *
-FROM nutrition
-LIMIT 10;
+    CONSTRAINT chk_ratings_value
+        CHECK (
+            rating BETWEEN 1 AND 5
+        ),
 
-SELECT *
-FROM nutrition
-ORDER BY RAND()
-LIMIT 10;
+    CONSTRAINT fk_ratings_user
+        FOREIGN KEY (
+            user_id
+        )
+        REFERENCES users (
+            user_id
+        )
+        ON DELETE CASCADE,
 
+    CONSTRAINT fk_ratings_recipe
+        FOREIGN KEY (
+            recipe_id
+        )
+        REFERENCES recipes (
+            recipe_id
+        )
+        ON DELETE CASCADE
+)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_unicode_ci;
 
-SELECT
-    recipe_id,
-    name,
-    JSON_LENGTH(ingredients) AS ingredient_num,
-    JSON_LENGTH(steps) AS step_num
-FROM recipes
-LIMIT 10;
+CREATE TABLE comments (
+    comment_id BIGINT NOT NULL AUTO_INCREMENT,
+    user_id INT NOT NULL,
+    recipe_id INT NOT NULL,
+    content TEXT NOT NULL,
+
+    created_at TIMESTAMP NOT NULL
+        DEFAULT CURRENT_TIMESTAMP,
+
+    updated_at TIMESTAMP NOT NULL
+        DEFAULT CURRENT_TIMESTAMP
+        ON UPDATE CURRENT_TIMESTAMP,
+
+    PRIMARY KEY (
+        comment_id
+    ),
+
+    INDEX idx_comments_recipe_created (
+        recipe_id,
+        created_at,
+        comment_id
+    ),
+
+    CONSTRAINT chk_comments_content_length
+        CHECK (
+            CHAR_LENGTH(TRIM(content))
+            BETWEEN 1 AND 2000
+        ),
+
+    CONSTRAINT fk_comments_user
+        FOREIGN KEY (
+            user_id
+        )
+        REFERENCES users (
+            user_id
+        )
+        ON DELETE CASCADE,
+
+    CONSTRAINT fk_comments_recipe
+        FOREIGN KEY (
+            recipe_id
+        )
+        REFERENCES recipes (
+            recipe_id
+        )
+        ON DELETE CASCADE
+)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_unicode_ci;

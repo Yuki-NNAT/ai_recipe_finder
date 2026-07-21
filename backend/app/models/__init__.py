@@ -6,6 +6,8 @@ from app.models.nutrition import Nutrition
 from app.models.recipe import Recipe
 from app.models.search_history import SearchHistory
 from app.models.user import User
+from app.models.rating import Rating
+from app.models.comment import Comment
 
 __all__ = [
     "Base",
@@ -16,4 +18,6 @@ __all__ = [
     "SearchHistory",
     "ChatHistory",
     "IngredientMapping",
+    "Rating"
+    "Comment"
 ]
