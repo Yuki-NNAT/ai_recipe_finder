@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 
 class CurrentUserResponse(BaseModel):
@@ -23,3 +23,22 @@ class CurrentUserResponse(BaseModel):
     )
 
     created_at: datetime
+
+class UsernameUpdateRequest(BaseModel):
+    username: str = Field(
+        min_length=2,
+        max_length=50,
+        examples=["User"],
+    )
+
+    @field_validator("username")
+    @classmethod
+    def normalize_username(cls, value: str) -> str:
+        normalized = " ".join(value.strip().split())
+
+        if len(normalized) < 2:
+            raise ValueError(
+                "Username must contain at least 2 characters.",
+            )
+
+        return normalized

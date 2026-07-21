@@ -42,7 +42,6 @@ class UserCRUD:
         )
 
         db.add(user)
-
         return user
 
     @staticmethod
@@ -57,4 +56,12 @@ class UserCRUD:
         if username is not None:
             user.username = username
 
+        return user
+
+    @staticmethod
+    def update_username(
+        user: User,
+        username: str,
+    ) -> User:
+        user.username = username
         return user

@@ -24,6 +24,13 @@ REQUIRED_IDENTITY_SCOPES = {
 MAX_COGNITO_SUB_LENGTH = 100
 MAX_USERNAME_LENGTH = 100
 MAX_EMAIL_LENGTH = 255
+MIN_DISPLAY_USERNAME_LENGTH = 2
+MAX_DISPLAY_USERNAME_LENGTH = 50
+ALLOWED_USERNAME_SPECIAL_CHARACTERS = {
+    " ",
+    "_",
+    "-",
+}
 
 
 def insufficient_scope_error() -> HTTPException:
@@ -63,6 +70,16 @@ def identity_conflict_error() -> HTTPException:
     return HTTPException(
         status_code=status.HTTP_409_CONFLICT,
         detail="Unable to link the authenticated account.",
+    )
+
+def invalid_username_error() -> HTTPException:
+    return HTTPException(
+        status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+        detail=(
+            "Username must contain 2–50 characters "
+            "and may only include letters, numbers, "
+            "spaces, underscores, and hyphens."
+        ),
     )
 
 
@@ -193,6 +210,41 @@ class AuthService:
 
         return username
 
+    @staticmethod
+    def normalize_display_username(
+        value: str,
+    ) -> str:
+        normalized_username = " ".join(
+            value.strip().split()
+        )
+
+        if not (
+            MIN_DISPLAY_USERNAME_LENGTH
+            <= len(normalized_username)
+            <= MAX_DISPLAY_USERNAME_LENGTH
+        ):
+            raise invalid_username_error()
+
+        has_letter_or_number = any(
+            character.isalnum()
+            for character in normalized_username
+        )
+
+        contains_invalid_character = any(
+            not character.isalnum()
+            and character
+            not in ALLOWED_USERNAME_SPECIAL_CHARACTERS
+            for character in normalized_username
+        )
+
+        if (
+            not has_letter_or_number
+            or contains_invalid_character
+        ):
+            raise invalid_username_error()
+
+        return normalized_username
+
     @classmethod
     def validate_identity(
         cls,
@@ -304,6 +356,43 @@ class AuthService:
             )
 
             raise identity_conflict_error() from exc
+
+    @classmethod
+    def update_username(
+        cls,
+        db: Session,
+        *,
+        user: User,
+        username: str,
+    ) -> User:
+        normalized_username = (
+            cls.normalize_display_username(
+                username
+            )
+        )
+
+        UserCRUD.update_username(
+            user,
+            normalized_username,
+        )
+
+        try:
+            db.commit()
+            db.refresh(user)
+
+            return user
+
+        except Exception as exc:
+            db.rollback()
+
+            logger.exception(
+                "Failed to update username."
+            )
+
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail="Unable to update username.",
+            ) from exc
 
     @classmethod
     def get_current_user(
