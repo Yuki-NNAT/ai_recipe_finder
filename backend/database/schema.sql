@@ -154,10 +154,6 @@ CREATE TABLE ratings (
         recipe_id
     ),
 
-    INDEX ix_ratings_recipe_id (
-        recipe_id
-    ),
-
     CONSTRAINT chk_ratings_value
         CHECK (
             rating BETWEEN 1 AND 5
@@ -202,12 +198,6 @@ CREATE TABLE comments (
         comment_id
     ),
 
-    INDEX idx_comments_recipe_created (
-        recipe_id,
-        created_at,
-        comment_id
-    ),
-
     CONSTRAINT chk_comments_content_length
         CHECK (
             CHAR_LENGTH(TRIM(content))
@@ -235,3 +225,25 @@ CREATE TABLE comments (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_unicode_ci;
+
+CREATE TABLE shopping_list_items (
+    item_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    recipe_id INT NULL,
+    ingredient_text VARCHAR(500) NOT NULL,
+    is_checked BOOLEAN NOT NULL DEFAULT FALSE,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL
+        DEFAULT CURRENT_TIMESTAMP
+        ON UPDATE CURRENT_TIMESTAMP,
+
+    CONSTRAINT fk_shopping_list_user
+        FOREIGN KEY (user_id)
+        REFERENCES users(user_id)
+        ON DELETE CASCADE,
+
+    CONSTRAINT fk_shopping_list_recipe
+        FOREIGN KEY (recipe_id)
+        REFERENCES recipes(recipe_id)
+        ON DELETE SET NULL,
+);

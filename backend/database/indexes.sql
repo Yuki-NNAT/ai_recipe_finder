@@ -16,3 +16,24 @@ ON chat_history(user_id, created_at);
 
 CREATE INDEX idx_chat_recipe
 ON chat_history(recipe_id);
+
+#Ratings
+CREATE INDEX idx_ratings_recipe_id
+    ON ratings (
+        recipe_id
+    );
+
+#Comments
+CREATE INDEX idx_comments_recipe_created
+    ON comments (
+        recipe_id,
+        created_at,
+        comment_id
+    );
+
+#Shopping List
+CREATE INDEX idx_shopping_list_user_created
+    ON shopping_list_items(user_id, created_at);
+
+CREATE INDEX idx_shopping_list_recipe
+    ON shopping_list_items(recipe_id);

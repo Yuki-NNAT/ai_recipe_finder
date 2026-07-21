@@ -12,6 +12,7 @@ from app.api.search_history import router as search_history_router
 from app.api.chat_history import router as chat_history_router
 from app.api.ratings import router as ratings_router
 from app.api.comments import router as comments_router
+from app.api.shopping_list import router as shopping_list_router
 
 logging.basicConfig(
     level=logging.INFO,
@@ -73,6 +74,10 @@ tags_metadata = [
             "Recipe comment endpoints, including authenticated "
             "create, update, and delete operations"
         ),
+    },
+    {
+        "name": "Shopping List",
+        "description": ("Authenticated user's shopping list endpoints"),
     },
 ]
 
@@ -141,6 +146,7 @@ app.include_router(search_history_router)
 app.include_router(chat_history_router)
 app.include_router(ratings_router)
 app.include_router(comments_router)
+app.include_router(shopping_list_router)
 
 @app.get(
     "/",

@@ -8,6 +8,7 @@ from app.models.search_history import SearchHistory
 from app.models.user import User
 from app.models.rating import Rating
 from app.models.comment import Comment
+from app.models.shopping_list_item import ShoppingListItem
 
 __all__ = [
     "Base",
@@ -20,4 +21,5 @@ __all__ = [
     "IngredientMapping",
     "Rating"
     "Comment"
+    "ShoppingListItem"
 ]
