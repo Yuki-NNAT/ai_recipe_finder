@@ -9,6 +9,7 @@ from app.models.user import User
 from app.models.rating import Rating
 from app.models.comment import Comment
 from app.models.shopping_list_item import ShoppingListItem
+from app.models.personal_note import PersonalNote
 
 __all__ = [
     "Base",
@@ -22,4 +23,5 @@ __all__ = [
     "Rating"
     "Comment"
     "ShoppingListItem"
+    "PersonalNote"
 ]

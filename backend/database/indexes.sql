@@ -37,3 +37,7 @@ CREATE INDEX idx_shopping_list_user_created
 
 CREATE INDEX idx_shopping_list_recipe
     ON shopping_list_items(recipe_id);
+
+#Personal Notes
+CREATE INDEX idx_personal_notes_user_updated
+    ON personal_notes (user_id, updated_at);

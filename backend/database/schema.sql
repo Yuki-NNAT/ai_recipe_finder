@@ -247,3 +247,26 @@ CREATE TABLE shopping_list_items (
         REFERENCES recipes(recipe_id)
         ON DELETE SET NULL,
 );
+
+CREATE TABLE personal_notes (
+    note_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    recipe_id INT NOT NULL,
+    content TEXT NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+        ON UPDATE CURRENT_TIMESTAMP,
+
+    CONSTRAINT fk_personal_notes_user
+        FOREIGN KEY (user_id)
+        REFERENCES users(user_id)
+        ON DELETE CASCADE,
+
+    CONSTRAINT fk_personal_notes_recipe
+        FOREIGN KEY (recipe_id)
+        REFERENCES recipes(recipe_id)
+        ON DELETE CASCADE,
+
+    CONSTRAINT uq_personal_notes_user_recipe
+        UNIQUE (user_id, recipe_id)
+);

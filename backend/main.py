@@ -13,6 +13,7 @@ from app.api.chat_history import router as chat_history_router
 from app.api.ratings import router as ratings_router
 from app.api.comments import router as comments_router
 from app.api.shopping_list import router as shopping_list_router
+from app.api.personal_note import router as personal_note_router
 
 logging.basicConfig(
     level=logging.INFO,
@@ -78,6 +79,12 @@ tags_metadata = [
     {
         "name": "Shopping List",
         "description": ("Authenticated user's shopping list endpoints"),
+    },
+    {
+        "name": "Personal Notes",
+        "description": (
+            "Authenticated user's private notes for recipes"
+        ),
     },
 ]
 
@@ -147,6 +154,7 @@ app.include_router(chat_history_router)
 app.include_router(ratings_router)
 app.include_router(comments_router)
 app.include_router(shopping_list_router)
+app.include_router(personal_note_router)
 
 @app.get(
     "/",
