@@ -80,6 +80,47 @@ backend/database/seed/
 tmp/
 temp/
 .cache/
+# ── Frontend (Node / Vite / React) ───────────────────────────
+node_modules
+dist-ssr
+.pnp
+.pnp.js
+.yarn/install-state.gz
+.eslintcache
+.stylelintcache
+.vite
+*.tsbuildinfo
+coverage
+*.lcov
+.hypothesis/
+wheels/
+sdist/
+
+# Hugging Face / sentence-transformers (model ~550MB)
+.cache/huggingface/
+models/
+*.bin
+*.safetensors
+
+# Vector DB
+*.index
+*.faiss
+
+# Docker
+.docker/
+
+# FastAPI
+*.pid
+
+# AWS credentials
+.aws/
+credentials
+
+# Secrets / Certs
+secrets/
+certs/
+*.crt
+*.cer
 
 # AWS Keys
 *.pem
