@@ -1,0 +1,9 @@
+export { default as HeroBanner } from './HeroBanner';
+export { default as StatsStrip } from './StatsStrip';
+export { default as FeaturesGrid } from './FeaturesGrid';
+export { default as RecipeSection } from './RecipeSection';
+export { default as CategoriesGrid } from './CategoriesGrid';
+export { default as AIRecommendation } from './AIRecommendation';
+export { default as HealthyTips } from './HealthyTips';
+export { default as Testimonials } from './Testimonials';
+export { default as FaqSection } from './FaqSection';
