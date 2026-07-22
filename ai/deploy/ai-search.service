@@ -1,0 +1,14 @@
+[Unit]
+Description=AI Recipe Finder - Search (port 8001)
+After=network.target docker.service
+
+[Service]
+User=ubuntu
+WorkingDirectory=/home/ubuntu
+EnvironmentFile=/home/ubuntu/.env
+ExecStart=/usr/bin/python3 -m uvicorn search:app --host 0.0.0.0 --port 8001
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

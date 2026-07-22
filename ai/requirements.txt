@@ -1,0 +1,12 @@
+# Phụ thuộc cho AI service (search + chat). Dùng psycopg[binary] để khỏi cần trình biên dịch C.
+fastapi>=0.110
+uvicorn[standard]>=0.29
+pyjwt[crypto]>=2.8
+psycopg[binary]>=3.1
+psycopg-pool>=3.2
+pgvector>=0.2
+sentence-transformers>=3.0     # embedding local (kéo theo torch, ~vài trăm MB)
+google-genai>=1.0              # chat LLM (Gemini, thay Bedrock Nova)
+requests>=2.31
+pymysql>=1.1
+slowapi>=0.1.9
