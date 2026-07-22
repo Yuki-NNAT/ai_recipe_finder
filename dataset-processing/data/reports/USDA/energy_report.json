@@ -1,0 +1,58 @@
+{
+    "metadata": {
+        "source": [
+            "food.csv",
+            "nutrient.csv",
+            "food_nutrient.csv"
+        ],
+        "output": "nutrition_raw.pkl"
+    },
+    "summary": {
+        "energy_id": 1008,
+        "food_total": 2101279,
+        "food_after_type_filter": 13694,
+        "food_with_energy": 13359,
+        "nutrition_rows": 13359,
+        "missing": {
+            "fdc_id": 0,
+            "food_name": 0,
+            "data_type": 0,
+            "calories": 0
+        },
+        "duplicate": 0
+    },
+    "details": {
+        "data_type_distribution": {
+            "sr_legacy_food": 7793,
+            "survey_fndds_food": 5432,
+            "foundation_food": 469
+        },
+        "dataset": {
+            "columns": [
+                "fdc_id",
+                "food_name",
+                "data_type",
+                "calories"
+            ],
+            "dtypes": {
+                "fdc_id": "int64",
+                "food_name": "str",
+                "data_type": "str",
+                "calories": "float64"
+            },
+            "missing": {
+                "fdc_id": 0,
+                "food_name": 0,
+                "data_type": 0,
+                "calories": 0
+            },
+            "duplicate_rows": 0
+        },
+        "calories_statistics": {
+            "min": 0.0,
+            "max": 902.0,
+            "mean": 211.45,
+            "median": 175.0
+        }
+    }
+}

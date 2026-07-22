@@ -1,0 +1,261 @@
+{
+    "food.csv": {
+        "shape": [
+            2101279,
+            5
+        ],
+        "columns": [
+            "fdc_id",
+            "data_type",
+            "description",
+            "food_category_id",
+            "publication_date"
+        ],
+        "dtypes": {
+            "fdc_id": "int64",
+            "data_type": "str",
+            "description": "str",
+            "food_category_id": "str",
+            "publication_date": "str"
+        },
+        "missing": {
+            "fdc_id": 0,
+            "data_type": 0,
+            "description": 9,
+            "food_category_id": 14555,
+            "publication_date": 0
+        },
+        "duplicate_rows": 0,
+        "sample": [
+            {
+                "fdc_id": 1105904,
+                "data_type": "branded_food",
+                "description": "WESSON Vegetable Oil 1 GAL",
+                "food_category_id": "Oils Edible",
+                "publication_date": "2020-11-13"
+            },
+            {
+                "fdc_id": 1105905,
+                "data_type": "branded_food",
+                "description": "SWANSON BROTH BEEF",
+                "food_category_id": "Herbs/Spices/Extracts",
+                "publication_date": "2020-11-13"
+            },
+            {
+                "fdc_id": 1105906,
+                "data_type": "branded_food",
+                "description": "CAMPBELL'S SLOW KETTLE SOUP CLAM CHOWDER",
+                "food_category_id": "Prepared Soups",
+                "publication_date": "2020-11-13"
+            },
+            {
+                "fdc_id": 1105907,
+                "data_type": "branded_food",
+                "description": "CAMPBELL'S SLOW KETTLE SOUP CHEESE BROCCOLI",
+                "food_category_id": "Prepared Soups",
+                "publication_date": "2020-11-13"
+            },
+            {
+                "fdc_id": 1105898,
+                "data_type": "experimental_food",
+                "description": "Discrepancy between the Atwater factor predicted and empirically measured energy values of almonds in human diets",
+                "food_category_id": null,
+                "publication_date": "2020-10-30"
+            }
+        ]
+    },
+    "food_nutrient.csv": {
+        "shape": [
+            27195013,
+            13
+        ],
+        "columns": [
+            "id",
+            "fdc_id",
+            "nutrient_id",
+            "amount",
+            "data_points",
+            "derivation_id",
+            "min",
+            "max",
+            "median",
+            "loq",
+            "footnote",
+            "min_year_acquired",
+            "percent_daily_value"
+        ],
+        "dtypes": {
+            "id": "int64",
+            "fdc_id": "int64",
+            "nutrient_id": "int64",
+            "amount": "float64",
+            "data_points": "float64",
+            "derivation_id": "float64",
+            "min": "float64",
+            "max": "float64",
+            "median": "float64",
+            "loq": "float64",
+            "footnote": "str",
+            "min_year_acquired": "float64",
+            "percent_daily_value": "float64"
+        },
+        "missing": {
+            "id": 0,
+            "fdc_id": 0,
+            "nutrient_id": 0,
+            "amount": 0,
+            "data_points": 26384070,
+            "derivation_id": 552080,
+            "min": 27080541,
+            "max": 27080539,
+            "median": 27176830,
+            "loq": 27186381,
+            "footnote": 27194991,
+            "min_year_acquired": 27162715,
+            "percent_daily_value": 6809541
+        },
+        "duplicate_rows": 0,
+        "sample": [
+            {
+                "id": 13706927,
+                "fdc_id": 1105904,
+                "nutrient_id": 1257,
+                "amount": 0.0,
+                "data_points": null,
+                "derivation_id": 71.0,
+                "min": null,
+                "max": null,
+                "median": null,
+                "loq": null,
+                "footnote": null,
+                "min_year_acquired": null,
+                "percent_daily_value": null
+            },
+            {
+                "id": 13706930,
+                "fdc_id": 1105904,
+                "nutrient_id": 1293,
+                "amount": 53.33,
+                "data_points": null,
+                "derivation_id": 71.0,
+                "min": null,
+                "max": null,
+                "median": null,
+                "loq": null,
+                "footnote": null,
+                "min_year_acquired": null,
+                "percent_daily_value": 0.0
+            },
+            {
+                "id": 13706926,
+                "fdc_id": 1105904,
+                "nutrient_id": 1253,
+                "amount": 0.0,
+                "data_points": null,
+                "derivation_id": 75.0,
+                "min": null,
+                "max": null,
+                "median": null,
+                "loq": null,
+                "footnote": null,
+                "min_year_acquired": null,
+                "percent_daily_value": 0.0
+            },
+            {
+                "id": 13706921,
+                "fdc_id": 1105904,
+                "nutrient_id": 1092,
+                "amount": 0.0,
+                "data_points": null,
+                "derivation_id": 75.0,
+                "min": null,
+                "max": null,
+                "median": null,
+                "loq": null,
+                "footnote": null,
+                "min_year_acquired": null,
+                "percent_daily_value": 0.0
+            },
+            {
+                "id": 13706916,
+                "fdc_id": 1105904,
+                "nutrient_id": 1008,
+                "amount": 867.0,
+                "data_points": null,
+                "derivation_id": 71.0,
+                "min": null,
+                "max": null,
+                "median": null,
+                "loq": null,
+                "footnote": null,
+                "min_year_acquired": null,
+                "percent_daily_value": null
+            }
+        ]
+    },
+    "nutrient.csv": {
+        "shape": [
+            477,
+            5
+        ],
+        "columns": [
+            "id",
+            "name",
+            "unit_name",
+            "nutrient_nbr",
+            "rank"
+        ],
+        "dtypes": {
+            "id": "int64",
+            "name": "str",
+            "unit_name": "str",
+            "nutrient_nbr": "float64",
+            "rank": "float64"
+        },
+        "missing": {
+            "id": 0,
+            "name": 0,
+            "unit_name": 0,
+            "nutrient_nbr": 12,
+            "rank": 11
+        },
+        "duplicate_rows": 0,
+        "sample": [
+            {
+                "id": 2047,
+                "name": "Energy (Atwater General Factors)",
+                "unit_name": "KCAL",
+                "nutrient_nbr": 957.0,
+                "rank": 280.0
+            },
+            {
+                "id": 2048,
+                "name": "Energy (Atwater Specific Factors)",
+                "unit_name": "KCAL",
+                "nutrient_nbr": 958.0,
+                "rank": 290.0
+            },
+            {
+                "id": 1001,
+                "name": "Solids",
+                "unit_name": "G",
+                "nutrient_nbr": 201.0,
+                "rank": 200.0
+            },
+            {
+                "id": 1002,
+                "name": "Nitrogen",
+                "unit_name": "G",
+                "nutrient_nbr": 202.0,
+                "rank": 500.0
+            },
+            {
+                "id": 1003,
+                "name": "Protein",
+                "unit_name": "G",
+                "nutrient_nbr": 203.0,
+                "rank": 600.0
+            }
+        ]
+    }
+}

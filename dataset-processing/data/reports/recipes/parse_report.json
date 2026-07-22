@@ -1,0 +1,29 @@
+{
+    "metadata": {
+        "source_file": "recipes.csv",
+        "output_file": "recipes_parsed.pkl"
+    },
+    "summary": {
+        "rows_before": 500471,
+        "rows_after": 415254,
+        "rows_removed": 85217
+    },
+    "json_columns": {
+        "ingredients": {
+            "parsed": 415254,
+            "empty": 9021
+        },
+        "ingredients_raw": {
+            "parsed": 415254,
+            "empty": 0
+        },
+        "steps": {
+            "parsed": 415254,
+            "empty": 0
+        },
+        "tags": {
+            "parsed": 415254,
+            "empty": 0
+        }
+    }
+}

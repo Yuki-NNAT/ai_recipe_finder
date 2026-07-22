@@ -1,0 +1,46 @@
+{
+    "metadata": {
+        "source": "recipes_cleaned.pkl",
+        "stage": "Dataset Verification"
+    },
+    "summary": {
+        "total_rows": 406233,
+        "total_columns": 17,
+        "duplicate_id": 43,
+        "missing_values": {
+            "id": 0,
+            "name": 0,
+            "description": 0,
+            "ingredients": 0,
+            "ingredients_raw": 0,
+            "steps": 0,
+            "servings": 0,
+            "serving_size": 0,
+            "tags": 0,
+            "ingredient_count": 0,
+            "ingredient_raw_count": 0,
+            "step_count": 0,
+            "tag_count": 0,
+            "has_ingredients": 0,
+            "has_ingredients_raw": 0,
+            "has_steps": 0,
+            "has_tags": 0
+        },
+        "empty_lists": {
+            "ingredients": 0,
+            "ingredients_raw": 0,
+            "steps": 0
+        }
+    },
+    "details": {
+        "list_columns": {
+            "ingredients": "<class 'list'>",
+            "ingredients_raw": "<class 'list'>",
+            "steps": "<class 'list'>",
+            "tags": "<class 'list'>"
+        },
+        "sample_checked": true,
+        "dataset_ready": true,
+        "next_stage": "Amazon RDS Database Design"
+    }
+}

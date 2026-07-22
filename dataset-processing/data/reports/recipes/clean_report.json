@@ -1,0 +1,19 @@
+{
+    "metadata": {
+        "source": "recipes_merged.pkl",
+        "output": "recipes_cleaned.pkl"
+    },
+    "summary": {
+        "input_rows": 408748,
+        "output_rows": 406233,
+        "removed_invalid_recipe": 2515,
+        "description_filled": 1916,
+        "servings_fixed": 600,
+        "serving_size_filled": 0,
+        "list_trimmed": 0
+    },
+    "details": {
+        "type": "csv",
+        "path": "data/reports/clean_details.csv"
+    }
+}

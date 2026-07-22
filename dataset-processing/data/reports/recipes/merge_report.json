@@ -1,0 +1,19 @@
+{
+    "metadata": {
+        "source": "recipes_parsed.pkl",
+        "output": "recipes_merged.pkl"
+    },
+    "summary": {
+        "input_rows": 415254,
+        "output_rows": 408748,
+        "duplicate_groups": 6549,
+        "merged_groups": 6506,
+        "removed_rows": 6506,
+        "kept_duplicate_groups": 43,
+        "skipped_groups": 0
+    },
+    "details": {
+        "type": "csv",
+        "path": "data/reports/merge_details.csv"
+    }
+}

@@ -1,0 +1,118 @@
+{
+    "metadata": {
+        "source": "nutrition_cleaned.pkl"
+    },
+    "summary": {
+        "status": "PASS",
+        "rows": 13359,
+        "missing": 0,
+        "duplicate_fdc": 0,
+        "duplicate_food_name": 194,
+        "negative_calories": 0,
+        "invalid_data_type": 0
+    },
+    "details": {
+        "schema": {
+            "expected": [
+                "fdc_id",
+                "food_name",
+                "data_type",
+                "calories"
+            ],
+            "actual": [
+                "fdc_id",
+                "food_name",
+                "data_type",
+                "calories"
+            ],
+            "status": true
+        },
+        "missing": {
+            "fdc_id": 0,
+            "food_name": 0,
+            "data_type": 0,
+            "calories": 0
+        },
+        "duplicate": {
+            "fdc_id": 0,
+            "food_name": 194
+        },
+        "calories": {
+            "negative": 0,
+            "zero": 65,
+            "statistics": {
+                "min": 0.0,
+                "max": 902.0,
+                "mean": 211.45,
+                "median": 175.0
+            }
+        },
+        "data_type": {
+            "sr_legacy_food": 7793,
+            "survey_fndds_food": 5431,
+            "foundation_food": 135
+        },
+        "sample": [
+            {
+                "fdc_id": 169295,
+                "food_name": "squash winter butternut raw",
+                "data_type": "sr_legacy_food",
+                "calories": 45.0
+            },
+            {
+                "fdc_id": 2707387,
+                "food_name": "peruvian beans from dried",
+                "data_type": "survey_fndds_food",
+                "calories": 192.0
+            },
+            {
+                "fdc_id": 2706916,
+                "food_name": "big mac (mcdonalds)",
+                "data_type": "survey_fndds_food",
+                "calories": 261.0
+            },
+            {
+                "fdc_id": 169490,
+                "food_name": "beef brisket point half separable lean and fat trimmed to 1/8\" fat all grades cooked braised",
+                "data_type": "sr_legacy_food",
+                "calories": 349.0
+            },
+            {
+                "fdc_id": 168597,
+                "food_name": "nuts cashew butter plain with salt added",
+                "data_type": "sr_legacy_food",
+                "calories": 609.0
+            },
+            {
+                "fdc_id": 173260,
+                "food_name": "pillsbury chocolate chip cookies refrigerated dough",
+                "data_type": "sr_legacy_food",
+                "calories": 450.0
+            },
+            {
+                "fdc_id": 2707000,
+                "food_name": "chicken fillet sandwich nfs",
+                "data_type": "survey_fndds_food",
+                "calories": 281.0
+            },
+            {
+                "fdc_id": 2709801,
+                "food_name": "peppers sweet red raw",
+                "data_type": "survey_fndds_food",
+                "calories": 31.0
+            },
+            {
+                "fdc_id": 2706643,
+                "food_name": "sausage potatoes and vegetables including carrots broccoli and/or dark-green leafy; gravy",
+                "data_type": "survey_fndds_food",
+                "calories": 128.0
+            },
+            {
+                "fdc_id": 171637,
+                "food_name": "bologna meat and poultry",
+                "data_type": "sr_legacy_food",
+                "calories": 281.0
+            }
+        ]
+    }
+}

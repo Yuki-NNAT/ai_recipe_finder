@@ -52,9 +52,6 @@ htmlcov/
 # Jupyter
 .ipynb_checkpoints/
 
-# Dataset Processing (KHÔNG PUSH)
-dataset-processing/
-
 # Raw / Processed Dataset
 *.csv
 *.tsv
@@ -73,7 +70,7 @@ dataset-processing/
 *.pth
 *.onnx
 
-# Seed Data (Import một lần rồi)
+# Seed Data 
 backend/database/seed/
 
 # Temporary
@@ -96,7 +93,7 @@ coverage
 wheels/
 sdist/
 
-# Hugging Face / sentence-transformers (model ~550MB)
+# Hugging Face / sentence-transformers 
 .cache/huggingface/
 models/
 *.bin

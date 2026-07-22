@@ -1,0 +1,46 @@
+{
+    "metadata": {
+        "source": "nutrition_raw.pkl",
+        "output": "nutrition_cleaned.pkl"
+    },
+    "summary": {
+        "rows_before": 13359,
+        "rows_after": 13359,
+        "negative_removed": 0,
+        "null_removed": 0,
+        "duplicate_fdc": 0,
+        "duplicate_food_name": 194
+    },
+    "details": {
+        "dataset": {
+            "columns": [
+                "fdc_id",
+                "food_name",
+                "data_type",
+                "calories"
+            ],
+            "dtypes": {
+                "fdc_id": "int64",
+                "food_name": "str",
+                "data_type": "str",
+                "calories": "float64"
+            }
+        },
+        "missing_before": {
+            "fdc_id": 0,
+            "food_name": 0,
+            "data_type": 0,
+            "calories": 0
+        },
+        "duplicate": {
+            "fdc_id": 0,
+            "food_name": 194
+        },
+        "calories_statistics": {
+            "min": 0.0,
+            "max": 902.0,
+            "mean": 211.45,
+            "median": 175.0
+        }
+    }
+}
